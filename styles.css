@@ -562,7 +562,7 @@ section {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(20, 20, 40, 0.6);
+    /* background-color: rgba(20, 20, 40, 0.6); */
     transition: opacity 0.4s ease;
     z-index: 5;
 }
