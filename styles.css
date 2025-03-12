@@ -571,14 +571,14 @@ section {
     font-family: 'Poppins', sans-serif;
     font-size: 2rem;
     font-weight: 600;
-    /* color: #ffffff; */
+    color: #ffffff;
     text-shadow: 0 0 10px rgba(108, 99, 255, 0.6);
     letter-spacing: 2px;
     padding: 15px 40px;
     border-radius: 8px;
-    /* background: rgba(20, 20, 40, 0.6); */
+    background: rgba(20, 20, 40, 0.6);
     /* backdrop-filter: blur(5px); */
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    /* border: 1px solid rgba(255, 255, 255, 0.1); */
     transform: translateY(0);
     transition: transform 0.4s ease, box-shadow 0.4s ease;
     /* box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2); */
@@ -614,13 +614,13 @@ section {
 
 @keyframes textGlow {
     0% {
-        text-shadow: 0 0 10px rgba(108, 99, 255, 0.6);
+        /* text-shadow: 0 0 10px rgba(108, 99, 255, 0.6); */
     }
     50% {
-        text-shadow: 0 0 20px rgba(108, 99, 255, 0.9);
+        /* text-shadow: 0 0 20px rgba(108, 99, 255, 0.9); */
     }
     100% {
-        text-shadow: 0 0 10px rgba(108, 99, 255, 0.6);
+        /* text-shadow: 0 0 10px rgba(108, 99, 255, 0.6); */
     }
 }
 
