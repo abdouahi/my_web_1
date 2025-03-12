@@ -1,6 +1,6 @@
 /* Modern CSS with variables, animations and glass effects */
 :root {
-    /* Color palette */
+    /* Light theme (default) */
     --primary-color: #6C63FF;
     --secondary-color: #4CAF50;
     --text-color: #333;
@@ -23,6 +23,17 @@
     --transition-medium: 0.5s ease;
 }
 
+/* Dark theme */
+body.dark-theme {
+    --primary-color: #9D94FF;
+    --secondary-color: #5FD364;
+    --text-color: #f0f0f0;
+    --bg-color: #121212;
+    --card-bg: rgba(30, 30, 30, 0.7);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+    --border-color: rgba(100, 100, 100, 0.18);
+}
+
 /* Reset & Base Styles */
 * {
     margin: 0;
@@ -41,6 +52,7 @@ body {
     overflow-x: hidden;
     position: relative;
     background-color: var(--bg-color);
+    transition: background-color var(--transition-medium), color var(--transition-medium);
 }
 
 /* Dynamic Background Canvas */
@@ -70,7 +82,8 @@ body {
     border: 1px solid var(--border-color);
     box-shadow: var(--glass-shadow);
     border-radius: 12px;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast), 
+                background var(--transition-medium), border-color var(--transition-medium);
 }
 
 .glass-card:hover {
@@ -139,6 +152,46 @@ body {
 .nav-links a:hover::after,
 .nav-links a.active::after {
     width: 100%;
+}
+
+/* Theme Toggle Styles */
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-right: var(--spacing-sm);
+    position: relative;
+}
+
+.toggle-icon {
+    font-size: 1.2rem;
+    transition: transform var(--transition-fast);
+}
+
+body.dark-theme .toggle-icon.sun {
+    display: block;
+}
+
+body.dark-theme .toggle-icon.moon {
+    display: none;
+}
+
+.toggle-icon.sun {
+    display: none;
+    color: #FFD700;
+}
+
+.toggle-icon.moon {
+    display: block;
+    color: #555;
+}
+
+body.dark-theme .toggle-icon.moon {
+    display: none;
+}
+
+.theme-toggle:hover .toggle-icon {
+    transform: rotate(30deg);
 }
 
 .menu-toggle {
@@ -371,6 +424,7 @@ section {
     border-radius: 20px;
     font-size: 0.8rem;
     font-weight: 500;
+    transition: background var(--transition-fast), color var(--transition-fast);
 }
 
 .project-links {
@@ -421,17 +475,23 @@ section {
     display: block;
     margin-bottom: 5px;
     font-weight: 500;
+    color: var(--text-color);
 }
 
 .form-group input,
 .form-group textarea {
     width: 100%;
     padding: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.1);
     color: var(--text-color);
-    transition: border-color var(--transition-fast);
+    transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+body.dark-theme .form-group input,
+body.dark-theme .form-group textarea {
+    background: rgba(30, 30, 30, 0.3);
 }
 
 .form-group input:focus,
@@ -548,6 +608,10 @@ section {
         border-radius: 0 0 12px 12px;
         flex-direction: column;
         align-items: center;
+    }
+    
+    body.dark-theme .nav-links {
+        background: rgba(30, 30, 30, 0.8);
     }
     
     .nav-links.active {
