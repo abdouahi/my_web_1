@@ -1,4 +1,5 @@
 /* Modern CSS with variables, animations and glass effects */
+/* Light Mode (Default) Variables */
 :root {
     /* Color palette */
     --primary-color: #6C63FF;
@@ -23,6 +24,17 @@
     /* Transitions */
     --transition-fast: 0.3s ease;
     --transition-medium: 0.5s ease;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --text-color: #e0e0e0;
+    --bg-color: #121212;
+    --card-bg: rgba(30, 30, 30, 0.3);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --border-color: rgba(100, 100, 100, 0.2);
+    --blur-bg-gradient-start: rgba(20, 20, 20, 0.3);
+    --blur-bg-gradient-end: rgba(30, 30, 30, 0.4);
 }
 
 /* Reset & Base Styles */
@@ -572,16 +584,22 @@ section {
     font-size: 2rem;
     font-weight: 600;
     color: #ffffff;
-    text-shadow: 0 0 10px rgba(108, 99, 255, 0.6);
+    /* Add black outline to text */
+    -webkit-text-stroke: 1px #000000;
+    text-shadow: 
+      -1px -1px 0 #000,
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+      1px 1px 0 #000,
+      0 0 10px rgba(0, 0, 0, 0.6); /* Keep the purple glow */
     letter-spacing: 2px;
     padding: 15px 40px;
     border-radius: 8px;
-    background: rgba(20, 20, 40, 0.6);
-    /* backdrop-filter: blur(5px); */
-    /* border: 1px solid rgba(255, 255, 255, 0.1); */
-    transform: translateY(0);
+    /* background: rgba(20, 20, 40, 0.6); */
+    /* Remove the border/frame */
+    border: none;
+    /* transform: translateY(0); */
     transition: transform 0.4s ease, box-shadow 0.4s ease;
-    /* box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2); */
     animation: textGlow 3s infinite;
 }
 
@@ -604,7 +622,7 @@ section {
 
 .blur-section:hover .overlay-text span {
     transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(31, 38, 135, 0.4);
+    /* box-shadow: 0 15px 40px rgba(31, 38, 135, 0.4); */
 }
 
 .blur-section:hover .about-content,
@@ -622,6 +640,90 @@ section {
     100% {
         /* text-shadow: 0 0 10px rgba(108, 99, 255, 0.6); */
     }
+}
+
+
+/* Dark Mode Toggle Styles */
+.theme-switch {
+    margin-right: 20px;
+    height: 26px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+#theme-toggle {
+    opacity: 0;
+    position: absolute;
+    width: 0;
+    height: 0;
+}
+
+.toggle-label {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5px;
+    cursor: pointer;
+    width: 60px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 100px;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-fast);
+}
+
+.toggle-label i {
+    font-size: 14px;
+    transition: var(--transition-fast);
+}
+
+.fa-sun {
+    color: #f6c343;
+}
+
+.fa-moon {
+    color: #749dd6;
+}
+
+.toggle-ball {
+    position: absolute;
+    left: 5px;
+    top: 3px;
+    width: 22px;
+    height: 22px;
+    background-color: #fff;
+    border-radius: 50%;
+    transition: transform var(--transition-medium);
+}
+
+body.dark-mode .toggle-ball {
+    transform: translateX(30px);
+}
+
+body.dark-mode .toggle-label {
+    background: rgba(20, 20, 20, 0.5);
+}
+
+/* Image filter for dark mode */
+body.dark-mode img, 
+body.dark-mode .project-image {
+    filter: brightness(0.8) contrast(1.1);
+}
+
+/* Additional dark mode specific animations */
+body.dark-mode .animated-text {
+    background: linear-gradient(90deg, var(--primary-color), #2D8632, var(--primary-color));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+}
+
+body.dark-mode .glass-nav,
+body.dark-mode .glass-card,
+body.dark-mode .glass-footer {
+    background: rgba(30, 30, 30, 0.3);
 }
 
 /* Responsive */

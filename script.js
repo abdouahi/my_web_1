@@ -1,5 +1,8 @@
 // Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize dark mode
+    initDarkMode();
+    
     // Dynamic background animation
     initDynamicBackground();
     
@@ -12,6 +15,43 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize blur section interactions
     initBlurSections();
 });
+
+// Dark Mode Implementation
+function initDarkMode() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const body = document.body;
+    
+    // Check for saved user preference
+    const darkMode = localStorage.getItem('darkMode');
+    
+    // Apply saved preference on load
+    if (darkMode === 'enabled') {
+        body.classList.add('dark-mode');
+        themeToggle.checked = true;
+        adjustCanvasColorsForDarkMode(true);
+    }
+    
+    // Toggle dark/light mode when button is clicked
+    themeToggle.addEventListener('change', function() {
+        if (this.checked) {
+            // Dark mode
+            body.classList.add('dark-mode');
+            localStorage.setItem('darkMode', 'enabled');
+            adjustCanvasColorsForDarkMode(true);
+        } else {
+            // Light mode
+            body.classList.remove('dark-mode');
+            localStorage.setItem('darkMode', 'disabled');
+            adjustCanvasColorsForDarkMode(false);
+        }
+    });
+}
+
+// Adjust canvas colors for dark mode
+function adjustCanvasColorsForDarkMode(isDarkMode) {
+    // This function will be called by initDynamicBackground()
+    window.isDarkMode = isDarkMode; 
+}
 
 // Dynamic Background with Particles/Gradient Effect
 function initDynamicBackground() {
@@ -30,13 +70,19 @@ function initDynamicBackground() {
     // Particle class
     class Particle {
         constructor() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 5 + 1;
-            this.speedX = Math.random() * 3 - 1.5;
-            this.speedY = Math.random() * 3 - 1.5;
-            this.color = `hsl(${Math.random() * 60 + 210}, 70%, 60%)`;
-        }
+			this.x = Math.random() * canvas.width;
+			this.y = Math.random() * canvas.height;
+			this.size = Math.random() * 5 + 1;
+			this.speedX = Math.random() * 3 - 1.5;
+			this.speedY = Math.random() * 3 - 1.5;
+			
+			// Adjust particle color based on dark mode
+			if (window.isDarkMode) {
+				this.color = `hsl(${Math.random() * 60 + 210}, 70%, 40%)`; // Darker particles
+			} else {
+				this.color = `hsl(${Math.random() * 60 + 210}, 70%, 60%)`; // Original particles
+			}
+		}
         
         update() {
             this.x += this.speedX;
@@ -70,34 +116,51 @@ function initDynamicBackground() {
     }
     
     // Background gradient
-    function drawBackground() {
-        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    // Background gradient
+function drawBackground() {
+    const isDark = window.isDarkMode;
+    
+    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    
+    if (isDark) {
+        // Dark mode gradient
+        gradient.addColorStop(0, '#121619');
+        gradient.addColorStop(1, '#1a1e24');
+    } else {
+        // Light mode gradient
         gradient.addColorStop(0, '#f0f4ff');
         gradient.addColorStop(1, '#e6f0ff');
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
+    
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
     
     // Connect particles with lines
     function connectParticles() {
-        for (let a = 0; a < particles.length; a++) {
-            for (let b = a; b < particles.length; b++) {
-                const dx = particles[a].x - particles[b].x;
-                const dy = particles[a].y - particles[b].y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                
-                if (distance < 100) {
-                    const opacity = 1 - (distance / 100);
-                    ctx.strokeStyle = `rgba(100, 150, 255, ${opacity * 0.2})`;
-                    ctx.lineWidth = 1;
-                    ctx.beginPath();
-                    ctx.moveTo(particles[a].x, particles[a].y);
-                    ctx.lineTo(particles[b].x, particles[b].y);
-                    ctx.stroke();
-                }
-            }
-        }
-    }
+		for (let a = 0; a < particles.length; a++) {
+			for (let b = a; b < particles.length; b++) {
+				const dx = particles[a].x - particles[b].x;
+				const dy = particles[a].y - particles[b].y;
+				const distance = Math.sqrt(dx * dx + dy * dy);
+				
+				if (distance < 100) {
+					const opacity = 1 - (distance / 100);
+					// Adjust line color based on dark mode
+					const lineColor = window.isDarkMode ? 
+						`rgba(60, 100, 200, ${opacity * 0.2})` : 
+						`rgba(100, 150, 255, ${opacity * 0.2})`;
+					
+					ctx.strokeStyle = lineColor;
+					ctx.lineWidth = 1;
+					ctx.beginPath();
+					ctx.moveTo(particles[a].x, particles[a].y);
+					ctx.lineTo(particles[b].x, particles[b].y);
+					ctx.stroke();
+				}
+			}
+		}
+	}
     
     // Animation loop
     function animate() {
@@ -190,20 +253,20 @@ function initBlurSections() {
         });
         
         // Add click interaction for mobile users
-        section.addEventListener('click', () => {
-            section.classList.toggle('active');
-            if (section.classList.contains('active')) {
-                overlay.style.opacity = '0.5';
-                if (content) {
-                    content.style.filter = 'blur(2px)';
-                }
-            } else {
-                overlay.style.opacity = '0.9';
-                if (content) {
-                    content.style.filter = 'blur(5px)';
-                }
-            }
-        });
+        // section.addEventListener('click', () => {
+        //     section.classList.toggle('active');
+        //     if (section.classList.contains('active')) {
+        //         overlay.style.opacity = '0.5';
+        //         if (content) {
+        //             content.style.filter = 'blur(2px)';
+        //         }
+        //     } else {
+        //         overlay.style.opacity = '0.9';
+        //         if (content) {
+        //             content.style.filter = 'blur(5px)';
+        //         }
+        //     }
+        // });
     });
 }
 
