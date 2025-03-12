@@ -790,4 +790,10 @@ body.dark-mode .glass-footer {
         font-size: 1.5rem;
         padding: 12px 30px;
     }
+	.theme-switch {
+        position: absolute;
+        right: 60px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
 }
