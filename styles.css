@@ -367,7 +367,7 @@ section {
 }
 
 .project-tags span {
-    background: rgba(108, 99, 255, 0.1);
+    background: rgba(245, 245, 245, 0.1);
     color: var(--primary-color);
     padding: 3px 10px;
     border-radius: 20px;
@@ -534,7 +534,7 @@ section {
     -webkit-backdrop-filter: blur(15px);
     border-radius: 16px;
     border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
     overflow: hidden;
     transition: all 0.5s ease;
     margin-bottom: var(--spacing-md);
@@ -546,8 +546,8 @@ section {
     inset: 0;
     background: radial-gradient(
         circle at center,
-        rgba(100, 100, 255, 0.1) 0%,
-        rgba(50, 50, 120, 0.05) 100%
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0.05) 100%
     );
     z-index: -1;
 }
