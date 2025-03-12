@@ -544,11 +544,11 @@ section {
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(
+    /* background: radial-gradient(
         circle at center,
         rgba(100, 100, 255, 0.1) 0%,
         rgba(50, 50, 120, 0.05) 100%
-    );
+    ); */
     z-index: -1;
 }
 
