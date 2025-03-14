@@ -374,15 +374,19 @@ function initContactForm() {
             event.preventDefault();
             // Add form submission logic here
             const formData = new FormData(contactForm);
-            // Example: Send formData to a server using fetch
-            fetch('https://formspree.io/f/meoaojle', {
+            // Example: Send formData to Formspree
+            fetch(contactForm.action, {
                 method: 'POST',
-                body: formData
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
             })
             .then(response => response.json())
             .then(data => {
                 // Handle success
                 alert('Message sent successfully!');
+                contactForm.reset(); // Clear the form fields
             })
             .catch(error => {
                 // Handle error
