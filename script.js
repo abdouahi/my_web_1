@@ -14,6 +14,24 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize blur section interactions
     initBlurSections();
+
+	// Add this function call to initialize the contact form submission
+	initContactForm();
+
+	document.addEventListener('DOMContentLoaded', function() {
+    // Other initializations...
+    
+    // Add this function call to update the footer year dynamically
+    updateFooterYear();
+});
+
+// Add this function definition at the end of the file
+function updateFooterYear() {
+    const footerYear = document.querySelector('.glass-footer p');
+    if (footerYear) {
+        footerYear.textContent = `© ${new Date().getFullYear()} ABOUAHI. All rights reserved.`;
+    }
+}
 });
 
 // Dark Mode Implementation
@@ -55,6 +73,7 @@ function adjustCanvasColorsForDarkMode(isDarkMode) {
 
 // Dynamic Background with Particles/Gradient Effect
 function initDynamicBackground() {
+
     const canvas = document.getElementById('background-canvas');
     const ctx = canvas.getContext('2d');
     
@@ -251,6 +270,45 @@ function initBlurSections() {
                 content.style.filter = 'blur(5px)';
             }
         });
+
+		// Inside initBlurSections function
+blurSections.forEach(section => {
+    const overlay = section.querySelector('.overlay-text');
+    const content = section.querySelector('.about-content, .projects-grid');
+    
+    // Hover interactions for desktop users
+    section.addEventListener('mouseenter', () => {
+        overlay.style.opacity = '1';
+        if (content) {
+            content.style.filter = 'blur(3px)';
+        }
+    });
+    
+    section.addEventListener('mouseleave', () => {
+        overlay.style.opacity = '0.9';
+        if (content) {
+            content.style.filter = 'blur(5px)';
+        }
+    });
+    
+    // Add click interaction for mobile users
+    section.addEventListener('click', () => {
+        if (window.innerWidth <= 768) { // Only apply for mobile users
+            section.classList.toggle('active');
+            if (section.classList.contains('active')) {
+                overlay.style.opacity = '0.5';
+                if (content) {
+                    content.style.filter = 'blur(2px)';
+                }
+            } else {
+                overlay.style.opacity = '0.9';
+                if (content) {
+                    content.style.filter = 'blur(5px)';
+                }
+            }
+        }
+    });
+});
         
         // Add click interaction for mobile users
         // section.addEventListener('click', () => {
@@ -268,6 +326,7 @@ function initBlurSections() {
         //     }
         // });
     });
+	
 }
 
 // Animate elements on scroll with Intersection Observer
@@ -306,4 +365,29 @@ function initScrollAnimation() {
             }
         </style>
     `);
+}
+
+function initContactForm() {
+    const contactForm = document.querySelector('.contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            // Add form submission logic here
+            const formData = new FormData(contactForm);
+            // Example: Send formData to a server using fetch
+            fetch('https://formspree.io/f/meoaojle', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Handle success
+                alert('Message sent successfully!');
+            })
+            .catch(error => {
+                // Handle error
+                alert('An error occurred. Please try again.');
+            });
+        });
+    }
 }
