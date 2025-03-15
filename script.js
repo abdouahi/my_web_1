@@ -224,20 +224,27 @@ function initMobileMenu() {
         }
     });
     
-    // Update active link based on scroll position
+    // Fix for the active nav highlighting
     const sections = document.querySelectorAll('section');
     const navItems = document.querySelectorAll('.nav-links a');
     
     window.addEventListener('scroll', () => {
         let current = '';
+        const scrollPosition = window.pageYOffset + window.innerHeight/3;
         
         sections.forEach((section) => {
             const sectionTop = section.offsetTop;
             const sectionHeight = section.clientHeight;
-            if (pageYOffset >= sectionTop - 200) {
+            
+            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
                 current = section.getAttribute('id');
             }
         });
+        
+        // Special case for the last section (likely contact)
+        if (window.innerHeight + window.pageYOffset >= document.body.offsetHeight - 100) {
+            current = sections[sections.length - 1].getAttribute('id');
+        }
         
         navItems.forEach((item) => {
             item.classList.remove('active');
